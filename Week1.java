@@ -33,8 +33,7 @@ public class Week1 {
         return IntStream.range(0, personNum).mapToObj(i -> {
             if ( i == personNum - 1)
                 return new Person(i+1, Boolean.TRUE);
-            else
-                return new Person(i+1);
+            return new Person(i+1);
         }).toList();
     }
 }
@@ -55,9 +54,7 @@ class Person {
         this.personNum = personNum;
         this.isLast = isLast;
     }
-    public int getPersonNum() {
-        return this.personNum;
-    }
+
     public String addStairs(Random random) {
         if (isLast) {
             return LAST_SADARI;
@@ -68,8 +65,7 @@ class Person {
 
         if (isCreateSadari) {
             return NEED_SADARI;
-        } else {
-            return NO_NEED_SADARI;
         }
+        return NO_NEED_SADARI;
     }
 }
