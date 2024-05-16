@@ -2,7 +2,6 @@ package ladder.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class LadderLine {
     private final List<Point> points;
@@ -42,8 +41,8 @@ public class LadderLine {
     }
 
     private boolean isMovablePointExist(final Point point) {
-        // Optional 객체에 맞게 수정
-        return point.getNextMovePoint().isPresent();
+        // Optional 객체꺼내지 않고 확인
+        return point.isNextMovePointPresent(point);
     }
 
     private boolean isMovableIndex(final Point point, final List<Point> newPoints) {

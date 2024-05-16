@@ -25,6 +25,10 @@ public class Point {
         return Optional.ofNullable(nextMovePoint);
     }
 
+    public boolean isNextMovePointPresent(Point point) {
+        return point.getNextMovePoint().isPresent();
+    }
+
     public void setNextMovePoint(final Point nextMovePoint) {
         this.nextMovePoint = nextMovePoint;
     }
