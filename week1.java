@@ -32,5 +32,7 @@ public class week1 {
             }
             System.out.println();
         }
+
+        scanner.close();
     }
 }
