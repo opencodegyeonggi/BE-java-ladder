@@ -20,7 +20,6 @@ public class Point {
         return this.index + NEXT_INDEX_OFFSET;
     }
 
-    // Optional 객체로 수정
     public Optional<Point> getNextMovePoint() {
         return Optional.ofNullable(nextMovePoint);
     }
