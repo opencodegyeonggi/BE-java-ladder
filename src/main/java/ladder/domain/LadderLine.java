@@ -37,8 +37,8 @@ public class LadderLine {
             if (!isMovablePointExist(point) && isMovableIndex(point, newPoints) && strategy.isDrawLine()) {
                 final Point nextPoint = getNextPoint(point, newPoints);
 
-                point.setNextMovePoint(nextPoint);
-                nextPoint.setNextMovePoint(point);
+                point.assignNextMovePoint(nextPoint);
+                nextPoint.assignNextMovePoint(point);
             }
         }
     }

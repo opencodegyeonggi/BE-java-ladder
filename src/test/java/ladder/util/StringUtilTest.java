@@ -21,17 +21,27 @@ class StringUtilTest {
     @ParameterizedTest
     @DisplayName("입력 문자열이 길이 5 이하일 때 길이가 5인 가운데 정렬된 문자열을 반환해야 함")
     @CsvSource({
+            "'', '     '",
             "'a', '  a  '",
             "'ab', ' ab  '",
             "'abc', ' abc '",
             "'abcd', 'abcd '",
-            "'abcde', 'abcde'"
+            "'abcde', 'abcde'",
+            "'abcdef', ''"
     })
     void fixStringCenterWithValidInput(String input, String expected) {
         int totalLength = 5;
-        String result = StringUtil.fixStringCenter(input);
 
-        assertThat(result.length()).isEqualTo(totalLength);
-        assertThat(result).isEqualTo(expected);
+        if (expected.isEmpty()) {
+            // 예외 발생을 검증
+            assertThatThrownBy(() -> StringUtil.fixStringCenter(input))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("최대 5 글자 까지 입력 가능합니다.");
+        } else {
+            String result = StringUtil.fixStringCenter(input);
+
+            assertThat(result.length()).isEqualTo(totalLength);
+            assertThat(result).isEqualTo(expected);
+        }
     }
 }

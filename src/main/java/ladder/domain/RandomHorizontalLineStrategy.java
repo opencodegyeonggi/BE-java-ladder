@@ -2,7 +2,7 @@ package ladder.domain;
 
 import java.util.Random;
 
-public class RandomLineStrategy implements HorizontalLineStrategy {
+public class RandomHorizontalLineStrategy implements HorizontalLineStrategy {
     private static final Random RANDOM_GENERATOR = new Random();
 
     @Override

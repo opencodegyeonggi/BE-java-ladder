@@ -28,7 +28,7 @@ public class Point {
         return point.getNextMovePoint().isPresent();
     }
 
-    public void setNextMovePoint(final Point nextMovePoint) {
+    public void assignNextMovePoint(final Point nextMovePoint) {
         this.nextMovePoint = nextMovePoint;
     }
 
