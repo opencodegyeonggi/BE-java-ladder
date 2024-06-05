@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class StringUtilTest {
 
@@ -26,22 +27,24 @@ class StringUtilTest {
             "'ab', ' ab  '",
             "'abc', ' abc '",
             "'abcd', 'abcd '",
-            "'abcde', 'abcde'",
-            "'abcdef', ''"
+            "'abcde', 'abcde'"
     })
     void fixStringCenterWithValidInput(String input, String expected) {
         int totalLength = 5;
+        String result = StringUtil.fixStringCenter(input);
 
-        if (expected.isEmpty()) {
-            // 예외 발생을 검증
-            assertThatThrownBy(() -> StringUtil.fixStringCenter(input))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("최대 5 글자 까지 입력 가능합니다.");
-        } else {
-            String result = StringUtil.fixStringCenter(input);
+        assertAll(
+                () -> assertThat(result.length()).isEqualTo(totalLength),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+    }
 
-            assertThat(result.length()).isEqualTo(totalLength);
-            assertThat(result).isEqualTo(expected);
-        }
+    @ParameterizedTest
+    @DisplayName("입력 문자열이 길이 6 이상일 때 예외가 발생해야 함")
+    @ValueSource(strings = {"abcdef"})
+    void fixStringCenterWithInvalidInput(String input) {
+        assertThatThrownBy(() -> StringUtil.fixStringCenter(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("최대 5 글자 까지 입력 가능합니다.");
     }
 }
