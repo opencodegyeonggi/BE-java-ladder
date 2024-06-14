@@ -1,27 +1,39 @@
 package ladder.view;
 
+import ladder.domain.LadderConfiguration;
+
 import java.util.Scanner;
 
-public record LadderInputView(
-        int ladderAttendeesNumber,
-        int ladderHeight
-) {
-    // try-with-resource 구문 추가하여 view 객체 생성 후 스캐너 반환
-    public static LadderInputView enterLadderInput() {
+public class LadderInputView {
+    public static LadderConfiguration enterLadderConfiguration() {
         try(Scanner scanner = new Scanner(System.in)) {
-            return new LadderInputView(enterLadderAttendeesNumber(scanner), enterLadderHeight(scanner));
+            return new LadderConfiguration(enterGameAttendees(scanner), enterLadderHeight(scanner));
         }
     }
 
-    private static int enterLadderAttendeesNumber(Scanner scanner) {
-        System.out.print("참여할 사람은 몇 명인가요? ");
+    private static String enterGameAttendees(Scanner scanner) {
+        System.out.print("참여할 사람 이름을 입력 하세요. (이름은 쉼표(,)로 구분하세요.) ");
 
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
     private static int enterLadderHeight(Scanner scanner) {
-        System.out.print("최대 사다리 높이는 몇 개 인가요? ");
+        int ladderHeight;
 
-        return scanner.nextInt();
+        while (true) {
+            System.out.print("최대 사다리 높이는 몇 개인가요?: ");
+
+            try {
+                ladderHeight = Integer.parseInt(scanner.nextLine().trim());
+
+                if (ladderHeight > 0) {
+                    return ladderHeight;
+                } else {
+                    System.out.println("양의 정수를 입력하세요.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("유효한 양의 정수를 입력하세요.");
+            }
+        }
     }
 }

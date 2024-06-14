@@ -1,16 +1,20 @@
 package ladder;
 
+import ladder.domain.GameAttendees;
 import ladder.domain.Ladder;
-import ladder.domain.RandomLineStrategy;
+import ladder.domain.LadderConfiguration;
+import ladder.domain.RandomHorizontalLineStrategy;
 import ladder.view.LadderInputView;
 import ladder.view.LadderView;
 
 public class Main {
     public static void main(String[] args) {
-        LadderInputView ladderInputView = LadderInputView.enterLadderInput();
+        LadderConfiguration ladderConfiguration = LadderInputView.enterLadderConfiguration();
 
-        Ladder ladder = new Ladder(ladderInputView.ladderAttendeesNumber(), ladderInputView.ladderHeight(), new RandomLineStrategy());
+        GameAttendees gameAttendees = new GameAttendees(ladderConfiguration.gameAttendees());
+        Ladder ladder = new Ladder(gameAttendees, ladderConfiguration.ladderHeight(), new RandomHorizontalLineStrategy());
 
+        LadderView.drawGameAttendees(gameAttendees);
         LadderView.drawLadder(ladder);
     }
 }

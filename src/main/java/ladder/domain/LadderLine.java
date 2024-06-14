@@ -6,22 +6,25 @@ import java.util.List;
 public class LadderLine {
     private final List<Point> points;
 
-    public LadderLine (int ladderAttendeesNumber, HorizontalLineStrategy strategy) {
-        this.points = createPointsBy(ladderAttendeesNumber, strategy);
+    private static final int LADDER_PADDING = 2;
+    private static final int LADDER_EXTENSION = 5;
+
+    public LadderLine (int numberOfGameAttendees, HorizontalLineStrategy strategy) {
+        this.points = createPointsBy(numberOfGameAttendees, strategy);
     }
 
-    private List<Point> createPointsBy(final int ladderAttendeesNumber, final HorizontalLineStrategy strategy) {
-        final List<Point> points = initPoints(ladderAttendeesNumber);
+    private List<Point> createPointsBy(final int numberOfGameAttendees, final HorizontalLineStrategy strategy) {
+        final List<Point> points = initPoints(numberOfGameAttendees);
 
         setHorizontalLines(points, strategy);
 
         return points;
     }
 
-    private List<Point> initPoints(final int ladderAttendeesNumber) {
+    private List<Point> initPoints(final int numberOfGameAttendees) {
         final List<Point> newPoints = new ArrayList<>();
 
-        for (int i = 0; i < ladderAttendeesNumber; i++) {
+        for (int i = 0; i < numberOfGameAttendees; i++) {
             Point point = new Point(i);
             newPoints.add(point);
         }
@@ -34,14 +37,13 @@ public class LadderLine {
             if (!isMovablePointExist(point) && isMovableIndex(point, newPoints) && strategy.isDrawLine()) {
                 final Point nextPoint = getNextPoint(point, newPoints);
 
-                point.setNextMovePoint(nextPoint);
-                nextPoint.setNextMovePoint(point);
+                point.assignNextMovePoint(nextPoint);
+                nextPoint.assignNextMovePoint(point);
             }
         }
     }
 
     private boolean isMovablePointExist(final Point point) {
-        // Optional 객체꺼내지 않고 확인
         return point.isNextMovePointPresent(point);
     }
 
@@ -49,22 +51,21 @@ public class LadderLine {
         final int endIndexSizeShouldExclude = 1;
         final int maximumMovableIndex = newPoints.size() - endIndexSizeShouldExclude;
 
-        // getter 로 직접 접근하지 않고 net index 구하도록 수정
         return point.isMovableIndex(maximumMovableIndex);
     }
 
     private Point getNextPoint(final Point point, final List<Point> newPoints) {
-        // 매직 넘버 사용을 피하기 위한 메소드 추가
         return newPoints.get(point.getNextIndex());
     }
 
     @Override
     public String toString() {
         final StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(" ".repeat(LADDER_PADDING));
 
         for (Point point : points) {
             stringBuilder.append(LadderCharacter.VERTICAL_LINE);
-            stringBuilder.append(getPrintType(point));
+            stringBuilder.append(getPrintType(point).repeat(LADDER_EXTENSION));
         }
 
         return stringBuilder.toString();
@@ -75,7 +76,6 @@ public class LadderLine {
     }
 
     private boolean isLineLinked(final Point point) {
-        // Optional 객체에 맞게 수정
         return point.getNextMovePoint()
                 .map(nextMovePoint -> nextMovePoint.isBiggerIndexThan(point))
                 .orElse(false);

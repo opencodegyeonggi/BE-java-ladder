@@ -7,15 +7,15 @@ import java.util.stream.Collectors;
 public class Ladder {
     private final List<LadderLine> ladderLines;
 
-    public Ladder(int ladderAttendeesNumber, int ladderHeight, HorizontalLineStrategy strategy) {
-        this.ladderLines = createLadderLinesBy(ladderAttendeesNumber, ladderHeight, strategy);
+    public Ladder(GameAttendees gameAttendees, int ladderHeight, HorizontalLineStrategy strategy) {
+        this.ladderLines = createLadderLinesBy(gameAttendees, ladderHeight, strategy);
     }
 
-    private List<LadderLine> createLadderLinesBy(int ladderAttendeesNumber, int ladderHeight, HorizontalLineStrategy strategy) {
+    private List<LadderLine> createLadderLinesBy(GameAttendees gameAttendees, int ladderHeight, HorizontalLineStrategy strategy) {
         final List<LadderLine> ladderLines = new ArrayList<>();
 
         for (int i = 0; i < ladderHeight; i++) {
-            ladderLines.add(new LadderLine(ladderAttendeesNumber, strategy));
+            ladderLines.add(new LadderLine(gameAttendees.getNumberOfGameAttendees(), strategy));
         }
 
         return ladderLines;
